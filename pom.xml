@@ -6,7 +6,7 @@
 
     <groupId>underknown.simulatedApp</groupId>
     <artifactId>stockMarket</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>0.0.2-SNAPSHOT</version>
     <name>Tool</name>
     <description>Various calculations and data retrieval</description>
 
@@ -82,7 +82,7 @@
     			</executions>
 
     			<configuration>
-        			<outfile>${project.build.directory}/SimulatedApp.exe</outfile>
+        			<outfile>${project.build.directory}/StockMarket.exe</outfile>
         			<jar>${project.build.directory}/${project.build.finalName}-shaded.jar</jar>
         			<headerType>gui</headerType>
         			<dontWrapJar>false</dontWrapJar>
