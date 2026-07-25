@@ -8,13 +8,14 @@ import java.awt.*;
 
 public class IHMSimulatedApp extends JFrame {
 
-    protected IHMSimulatedApp(){
+	private static final long serialVersionUID = 743626703354898068L;
+
+	protected IHMSimulatedApp(){
         super("SimulatedApp");
-        TabManager control = new TabManager();
+        final TabManager control = new TabManager();
 
         final JPanel gui = new JPanel(new BorderLayout(5,5));
         gui.add(control, BorderLayout.NORTH);
-//        gui.add(vue, BorderLayout.CENTER);
         setContentPane(gui);
 
         setLocation(200, 20);
@@ -23,8 +24,6 @@ public class IHMSimulatedApp extends JFrame {
         setVisible(true);
 
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
-//        pack();
     }
 
 }

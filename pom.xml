@@ -28,6 +28,66 @@
                     <target>21</target>
                 </configuration>
             </plugin>
+			<plugin>
+			    <groupId>org.apache.maven.plugins</groupId>
+			    <artifactId>maven-jar-plugin</artifactId>
+			    <version>3.4.2</version>
+			    <configuration>
+			        <archive>
+			            <manifest>
+			                <mainClass>underknown.simulatedApp.SimulatedAppTestApplication</mainClass>
+			            </manifest>
+			        </archive>
+			    </configuration>
+			</plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-shade-plugin</artifactId>
+                <version>3.5.3</version>
+
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>shade</goal>
+                        </goals>
+
+                        <configuration>
+                            <shadedArtifactAttached>true</shadedArtifactAttached>
+                            <shadedClassifierName>shaded</shadedClassifierName>
+
+                            <createDependencyReducedPom>false</createDependencyReducedPom>
+
+                            <transformers>
+                                <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+                                    <mainClass>underknown.simulatedApp.SimulatedAppTestApplication</mainClass>
+                                </transformer>
+                            </transformers>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+    			<groupId>com.akathist.maven.plugins.launch4j</groupId>
+    			<artifactId>launch4j-maven-plugin</artifactId>
+    			<version>2.5.0</version>
+
+    			<executions>
+        			<execution>
+            			<phase>package</phase>
+            			<goals>
+                			<goal>launch4j</goal>
+            			</goals>
+        			</execution>
+    			</executions>
+
+    			<configuration>
+        			<outfile>${project.build.directory}/SimulatedApp.exe</outfile>
+        			<jar>${project.build.directory}/${project.build.finalName}-shaded.jar</jar>
+        			<headerType>gui</headerType>
+        			<dontWrapJar>false</dontWrapJar>
+    			</configuration>
+			</plugin>
         </plugins>
     </build>
 
