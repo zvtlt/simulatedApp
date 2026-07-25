@@ -122,7 +122,7 @@ public class IndiceValuesTab {
 				}
 
 				refreshIndiceValuesPanel();
-
+				
 				controller.indiceValuesUpdatePanels();
 			} else {
 				warningLabel.setText("Veuillez entrer un nom et un code pour l'ajouter à la liste");
@@ -157,8 +157,11 @@ public class IndiceValuesTab {
 		indicePanel.removeAll();
 		indiceValuesPanel.removeAll();
 		bottomPanel.removeAll();
+		
+		IndicesModel currentIndicesModel = null;
 		try {
 			for (final IndicesModel indicesModel : IndicesFactory.getInstance().getIndicesModelList()) {
+				currentIndicesModel = indicesModel;
 				final IndicesObjectsModel indicesObjectModel = new IndicesObjectsModel(indicesModel);
 				final String price = PriceUtils.getInstance().getIndiceValue(indicesModel.getCode());
 				final StringBuilder priceStringBuilder = new StringBuilder(price);
@@ -170,13 +173,17 @@ public class IndiceValuesTab {
 				}
 				indicesObjectModel.getLabelValue().setText(priceStringBuilder.toString());
 				indiceValuesPanel.add(indicesObjectModel.getJpanel());
+				
+				warningLabel.setText("");
 			}
-			warningLabel.setText("");
 		} catch (final IOException ioE) {
 			warningLabel.setText(ioE.getMessage());
 		} catch (final InterruptedException iE) {
 			warningLabel.setText(iE.getMessage());
 		} catch (final NullPointerException iE) {
+			final int comboboxsize = ComboBoxUtils.getInstance().getComboBox().getItemCount();
+			ComboBoxUtils.getInstance().getComboBox().removeItemAt(comboboxsize - 1);
+			IndicesFactory.getInstance().getIndicesModelList().remove(currentIndicesModel);
 			warningLabel.setText(iE.getMessage());
 		}
 
