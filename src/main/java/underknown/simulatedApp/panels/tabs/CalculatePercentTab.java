@@ -156,13 +156,13 @@ public class CalculatePercentTab {
 		initializeCalculatePercentTab();
 	}
 
-	private void refreshTable() {
-		if (!list.isEmpty() && updateList()) {
+	private void refreshTable(final boolean isRefresh) {
+		if (!list.isEmpty() && updateList(isRefresh)) {
 			updateTable();
 		}
 	}
 
-	private boolean updateList() {
+	private boolean updateList(final boolean isRefresh) {
 		final float capitalValue = getCapitalValue();
 		final Object comboBoxSelectedItem = getComboBoxSelectedItem();
 		if (ComboBoxUtils.DEFAULT_MESSAGE.equals(comboBoxSelectedItem)) {
@@ -176,7 +176,7 @@ public class CalculatePercentTab {
 			try {
 				for (final IndicesModel indicesModel : getIndicesModelList()) {
 					final String indiceName = indicesModel.getName();
-					if (indiceName.equals(comboBoxSelectedItem)) {
+					if (isRefresh || indiceName.equals(comboBoxSelectedItem)) {
 						final float indicePercent = indicesModel.getPercent();
 						if (indicePercent == 0.0) {
 							final StringBuilder errorMessage = new StringBuilder();
@@ -270,7 +270,7 @@ public class CalculatePercentTab {
 
 		@Override
 		public void actionPerformed(final ActionEvent e) {
-			if (updateList()) {
+			if (updateList(false)) {
 				updateTable();
 			}
 		}
@@ -316,7 +316,7 @@ public class CalculatePercentTab {
 				warningLabel.setText("");
 			}
 
-			if (list.contains(indiceName) && updateList()) {
+			if (list.contains(indiceName) && updateList(false)) {
 				updateTable();
 			}
 		}
@@ -327,14 +327,14 @@ public class CalculatePercentTab {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			refreshTable();
+			refreshTable(true);
 		}
 
 	}
 
 	public JPanel getMainPanel() {
 		refreshTopPanel();
-		refreshTable();
+		refreshTable(false);
 		return mainPanel;
 	}
 
